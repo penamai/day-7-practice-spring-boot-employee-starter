@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -28,8 +29,9 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee addAnEmployee(@RequestBody Employee employee){
-        return employeeRepository.addAnEmployee(employee);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addAnEmployee(@RequestBody Employee employee){
+        employeeRepository.addAnEmployee(employee);
     }
 
     @PutMapping("/{id}")
@@ -38,7 +40,9 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public List<Employee> deleteEmployeeById(@PathVariable Long id){
-        return employeeRepository.deleteEmployeeById(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEmployeeById(@PathVariable Long id){
+        employeeRepository.deleteEmployeeById(id);
     }
+
 }

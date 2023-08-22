@@ -35,9 +35,8 @@ public class EmployeeRepository {
                 .collect(Collectors.toList());
     }
 
-    public Employee addAnEmployee(Employee employee) {
+    public void addAnEmployee(Employee employee) {
         employees.add(employee);
-        return employee;
     }
 
     public Employee updateEmployeeById(Long id, Employee updatedEmployeeInfo) {
@@ -48,8 +47,7 @@ public class EmployeeRepository {
         return updatedEmployee;
     }
 
-    public List<Employee> deleteEmployeeById(Long id) {
+    public void deleteEmployeeById(Long id) {
         employees.remove(findById(id));
-        return employees;
     }
 }
