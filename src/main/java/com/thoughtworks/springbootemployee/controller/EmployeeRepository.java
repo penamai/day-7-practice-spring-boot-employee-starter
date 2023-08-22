@@ -39,4 +39,12 @@ public class EmployeeRepository {
         employees.add(employee);
         return employee;
     }
+
+    public Employee updateEmployeeById(Long id, Employee updatedEmployeeInfo) {
+        Employee employeeToBeUpdated = findById(id);
+        Employee updatedEmployee = new Employee(id, employeeToBeUpdated.getName(), updatedEmployeeInfo.getAge(), employeeToBeUpdated.getGender(), updatedEmployeeInfo.getSalary());
+
+        employees.set(employees.indexOf(employeeToBeUpdated), updatedEmployee);
+        return updatedEmployee;
+    }
 }

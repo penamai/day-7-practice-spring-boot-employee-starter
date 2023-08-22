@@ -27,8 +27,13 @@ public class EmployeeController {
         return employeeRepository.findByGender(gender);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public Employee addAnEmployee(@RequestBody Employee employee){
         return employeeRepository.addAnEmployee(employee);
+    }
+
+    @PutMapping("/{id}")
+    public Employee updateEmployeeById(@PathVariable Long id, @RequestBody Employee updatedEmployeeInfo){
+        return employeeRepository.updateEmployeeById(id, updatedEmployeeInfo);
     }
 }
