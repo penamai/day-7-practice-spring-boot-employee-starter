@@ -36,4 +36,8 @@ public class CompanyRepository {
             toIndex = companies.size();
         return companies.subList(fromIndex, toIndex);
     }
+
+    public void addACompany(Company company) {
+        companies.add(company);
+    }
 }
