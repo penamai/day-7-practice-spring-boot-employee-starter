@@ -50,4 +50,12 @@ public class EmployeeRepository {
     public void deleteEmployeeById(Long id) {
         employees.remove(findById(id));
     }
+
+    public List<Employee> listEmployeesByPage(Integer pageNumber, Integer pageSize) {
+        int fromIndex = pageSize*(pageNumber - 1);
+        int toIndex = fromIndex + pageSize;
+        if(toIndex > employees.size())
+            toIndex = employees.size();
+        return employees.subList(fromIndex, toIndex);
+    }
 }
