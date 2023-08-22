@@ -2,11 +2,11 @@ package com.thoughtworks.springbootemployee.controller;
 
 public class Employee {
 
-    private Long id;
-    private String name;
-    private Integer age;
-    private String gender;
-    private Integer salary;
+    private final Long id;
+    private final String name;
+    private final Integer age;
+    private final String gender;
+    private final Integer salary;
 
     public Employee(Long id, String name, Integer age, String gender, Integer salary) {
         this.id = id;
