@@ -1,12 +1,17 @@
 package com.thoughtworks.springbootemployee.controller;
 
-public class Company {
-    private Long id;
-    private String name;
+import java.util.List;
 
-    public Company(Long id, String name) {
+public class Company {
+    private final Long id;
+    private final String name;
+
+    private final List<Employee> companyEmployees;
+
+    public Company(Long id, String name, List<Employee> companyEmployees) {
         this.id = id;
         this.name = name;
+        this.companyEmployees = companyEmployees;
     }
 
     public Long getId() {
@@ -15,5 +20,9 @@ public class Company {
 
     public String getName() {
         return name;
+    }
+
+    public List<Employee> getCompanyEmployees() {
+        return companyEmployees;
     }
 }
