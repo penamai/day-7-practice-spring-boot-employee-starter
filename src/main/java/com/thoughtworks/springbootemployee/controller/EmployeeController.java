@@ -10,8 +10,12 @@ import java.util.List;
 @RequestMapping(path = "/employees")
 public class EmployeeController {
 
+    private final EmployeeRepository employeeRepository;
+
     @Autowired
-    private EmployeeRepository employeeRepository;
+    public EmployeeController(EmployeeRepository employeeRepository){
+        this.employeeRepository = employeeRepository;
+    }
 
     @GetMapping
     public List<Employee> listAll() {
