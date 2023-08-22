@@ -47,4 +47,9 @@ public class EmployeeRepository {
         employees.set(employees.indexOf(employeeToBeUpdated), updatedEmployee);
         return updatedEmployee;
     }
+
+    public List<Employee> deleteEmployeeById(Long id) {
+        employees.remove(findById(id));
+        return employees;
+    }
 }
