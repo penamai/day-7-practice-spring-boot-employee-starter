@@ -47,4 +47,10 @@ public class CompanyController {
     public Company updateCompanyNameById(@PathVariable Long id, @RequestBody Company updatedCompanyInfo){
         return companyRepository.updateCompanyById(id, updatedCompanyInfo);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCompanyById(@PathVariable Long id){
+        companyRepository.deleteCompanyById(id);
+    }
 }

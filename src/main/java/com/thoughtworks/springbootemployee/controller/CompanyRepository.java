@@ -48,4 +48,8 @@ public class CompanyRepository {
         companies.set(companies.indexOf(companyToBeUpdated), updatedCompany);
         return updatedCompany;
     }
+
+    public void deleteCompanyById(Long id) {
+        companies.remove(getCompanyById(id));
+    }
 }
