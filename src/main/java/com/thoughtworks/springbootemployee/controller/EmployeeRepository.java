@@ -19,7 +19,7 @@ public class EmployeeRepository {
         employees.add(new Employee(5l, "Ellen", 34, "Female", 5000));
     }
 
-    public List<Employee> listAll() {
+    public List<Employee> getAllEmployees() {
         return employees;
     }
 
