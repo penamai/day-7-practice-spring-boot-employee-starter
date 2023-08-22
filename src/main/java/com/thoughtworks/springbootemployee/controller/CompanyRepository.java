@@ -40,4 +40,12 @@ public class CompanyRepository {
     public void addACompany(Company company) {
         companies.add(company);
     }
+
+    public Company updateCompanyById(Long id, Company updatedCompanyInfo) {
+        Company companyToBeUpdated = getCompanyById(id);
+        Company updatedCompany = new Company(id, updatedCompanyInfo.getName(), companyToBeUpdated.getCompanyEmployees());
+
+        companies.set(companies.indexOf(companyToBeUpdated), updatedCompany);
+        return updatedCompany;
+    }
 }

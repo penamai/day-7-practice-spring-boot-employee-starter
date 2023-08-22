@@ -42,4 +42,9 @@ public class CompanyController {
     public void addACompany(@RequestBody  Company company){
         companyRepository.addACompany(company);
     }
+
+    @PutMapping("/{id}")
+    public Company updateCompanyNameById(@PathVariable Long id, @RequestBody Company updatedCompanyInfo){
+        return companyRepository.updateCompanyById(id, updatedCompanyInfo);
+    }
 }

@@ -5,7 +5,6 @@ import java.util.List;
 public class Company {
     private final Long id;
     private final String name;
-
     private final List<Employee> companyEmployees;
 
     public Company(Long id, String name, List<Employee> companyEmployees) {
