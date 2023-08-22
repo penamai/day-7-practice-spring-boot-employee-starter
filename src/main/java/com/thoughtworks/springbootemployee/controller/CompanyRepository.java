@@ -28,4 +28,12 @@ public class CompanyRepository {
     public List<Employee> getCompanyListOfEmployees(Long id) {
         return getCompanyById(id).getCompanyEmployees();
     }
+
+    public List<Company> listCompaniesByPage(Integer pageNumber, Integer pageSize) {
+        int fromIndex = pageSize*(pageNumber - 1);
+        int toIndex = fromIndex + pageSize;
+        if(toIndex > companies.size())
+            toIndex = companies.size();
+        return companies.subList(fromIndex, toIndex);
+    }
 }
