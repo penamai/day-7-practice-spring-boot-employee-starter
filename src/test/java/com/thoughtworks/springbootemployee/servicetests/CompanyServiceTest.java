@@ -2,7 +2,9 @@ package com.thoughtworks.springbootemployee.servicetests;
 
 import com.thoughtworks.springbootemployee.exception.InactiveCompanyException;
 import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.service.CompanyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,11 +25,13 @@ public class CompanyServiceTest {
     private CompanyService companyService;
 
     private CompanyRepository mockedCompanyRepository;
+    private EmployeeRepository mockedEmployeeRepository;
 
     @BeforeEach
     void setup() {
         mockedCompanyRepository = mock(CompanyRepository.class);
-        companyService = new CompanyService(mockedCompanyRepository);
+        mockedEmployeeRepository = mock(EmployeeRepository.class);
+        companyService = new CompanyService(mockedCompanyRepository, mockedEmployeeRepository);
     }
 
     @Test
@@ -120,5 +124,18 @@ public class CompanyServiceTest {
         List<Company> retrievedCompanies = companyService.findByPage(1,3);
 
         assertThat(companies).hasSameElementsAs(retrievedCompanies);
+    }
+
+    @Test
+    void should_return_employees_of_company_when_findAllEmployees_given_company_id() {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1L, "Ababa", 20, "Female", 10000, 1L));
+        employees.add(new Employee(1L, "Brrr", 54, "Male", 2000, 2L));
+        employees.add(new Employee(1L, "Cheess", 35, "Male", 18000, 1L));
+        when(mockedEmployeeRepository.getEmployeesByCompanyId(1L)).thenReturn(employees);
+
+        List<Employee> retrievedEmployees = companyService.findAllEmployees(1L);
+
+        assertThat(employees).hasSameElementsAs(retrievedEmployees);
     }
 }
