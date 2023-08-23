@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee;
+package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.exception.NotValidEmployeeAge;
 import com.thoughtworks.springbootemployee.model.Employee;

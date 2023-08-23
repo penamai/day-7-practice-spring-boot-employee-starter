@@ -1,4 +1,4 @@
-package com.thoughtworks.springbootemployee;
+package com.thoughtworks.springbootemployee.apitests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.springbootemployee.model.Employee;

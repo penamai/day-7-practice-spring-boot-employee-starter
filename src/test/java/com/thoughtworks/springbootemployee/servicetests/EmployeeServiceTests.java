@@ -1,8 +1,9 @@
-package com.thoughtworks.springbootemployee;
+package com.thoughtworks.springbootemployee.servicetests;
 
 import com.thoughtworks.springbootemployee.exception.NotValidEmployeeAge;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
