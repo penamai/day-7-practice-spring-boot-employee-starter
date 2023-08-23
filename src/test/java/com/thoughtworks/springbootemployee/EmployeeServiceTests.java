@@ -32,6 +32,7 @@ public class EmployeeServiceTests {
         Assertions.assertEquals(savedEmployee.getGender(), createdEmployee.getGender());
         Assertions.assertEquals(savedEmployee.getSalary(), createdEmployee.getSalary());
         Assertions.assertEquals(savedEmployee.getCompanyId(), createdEmployee.getCompanyId());
+        Assertions.assertEquals(true, createdEmployee.isActive());
     }
 
     @Test

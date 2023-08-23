@@ -8,6 +8,7 @@ public class Employee {
     private final String gender;
     private final Integer salary;
     private final Long companyId;
+    private boolean isActive;
 
     public Employee(Long id, String name, Integer age, String gender, Integer salary, Long companyID) {
         this.id = id;
@@ -16,6 +17,7 @@ public class Employee {
         this.gender = gender;
         this.salary = salary;
         this.companyId = companyID;
+        this.isActive = true;
     }
 
     public Long getId() {
@@ -44,5 +46,9 @@ public class Employee {
 
     public boolean hasValidAge() {
         return age >= 18 && age <= 65;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 }
