@@ -26,12 +26,12 @@ public class EmployeeServiceTests {
 
         Employee createdEmployee = employeeService.create(employee);
 
-        Assertions.assertEquals(savedEmployee.getId(), createdEmployee.getId());
-        Assertions.assertEquals(savedEmployee.getName(), createdEmployee.getName());
-        Assertions.assertEquals(savedEmployee.getAge(), createdEmployee.getAge());
-        Assertions.assertEquals(savedEmployee.getGender(), createdEmployee.getGender());
-        Assertions.assertEquals(savedEmployee.getSalary(), createdEmployee.getSalary());
-        Assertions.assertEquals(savedEmployee.getCompanyId(), createdEmployee.getCompanyId());
+        Assertions.assertEquals(1L, createdEmployee.getId());
+        Assertions.assertEquals("Lucy", createdEmployee.getName());
+        Assertions.assertEquals(20, createdEmployee.getAge());
+        Assertions.assertEquals("Female", createdEmployee.getGender());
+        Assertions.assertEquals(3000, createdEmployee.getSalary());
+        Assertions.assertEquals(1L, createdEmployee.getCompanyId());
         Assertions.assertEquals(true, createdEmployee.isActive());
     }
 
