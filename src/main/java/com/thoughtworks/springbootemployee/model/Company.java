@@ -7,7 +7,7 @@ import static java.lang.Boolean.TRUE;
 
 public class Company {
     private Long id;
-    private final String name;
+    private String name;
     private Boolean isActive;
 
     @JsonCreator
@@ -39,7 +39,11 @@ public class Company {
         return isActive;
     }
 
-    public void setAsInactive() {
+    public void setToInactive() {
         this.isActive = FALSE;
+    }
+
+    public void update(Company updatedCompanyInfo){
+        this.name = updatedCompanyInfo.getName();
     }
 }

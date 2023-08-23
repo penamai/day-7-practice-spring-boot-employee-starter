@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.InactiveCompanyException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,14 @@ public class CompanyService {
 
     public void delete(Long id) {
         companyRepository.setToInactive(id);
+    }
+
+    public Company update(Long id, Company updatedCompanyInfo) {
+        Company companyToUpdate = companyRepository.getCompanyById(id);
+        if(!companyToUpdate.isActive())
+            throw new InactiveCompanyException();
+        companyToUpdate.update(updatedCompanyInfo);
+
+        return companyToUpdate;
     }
 }

@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.servicetests;
 
+import com.thoughtworks.springbootemployee.exception.InactiveCompanyException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import com.thoughtworks.springbootemployee.service.CompanyService;
@@ -51,5 +52,33 @@ public class CompanyServiceTest {
             assertEquals("Couchpany", tempCompany.getName());
             return true;
         }));
+    }
+
+    @Test
+    void should_return_updated_company_when_update_given_active_company() {
+        Company company = new Company(1L, "Brandname");
+        Company updatedCompanyInfo = new Company (null, "BrandNameNew");
+
+        when(mockedCompanyRepository.getCompanyById(company.getId())).thenReturn(company);
+
+        Company updatedCompany = companyService.update(company.getId(), updatedCompanyInfo);
+
+        assertTrue(updatedCompany.isActive());
+        assertEquals(company.getId(), updatedCompany.getId());
+        assertEquals(updatedCompanyInfo.getName(), updatedCompany.getName());
+    }
+
+    @Test
+    void should_return_exceptionError_when_update_given_inactive_company() {
+        Company company = new Company(1L, "inactivee");
+        Company updatedCompanyInfo = new Company(null, "Brandname");
+        company.setToInactive();
+        when(mockedCompanyRepository.getCompanyById(company.getId())).thenReturn(company);
+
+        InactiveCompanyException inactiveEmployeeException = assertThrows(InactiveCompanyException.class,
+                () -> companyService.update(company.getId(), updatedCompanyInfo));
+
+        assertEquals("Company is inactive", inactiveEmployeeException.getMessage());
+
     }
 }
