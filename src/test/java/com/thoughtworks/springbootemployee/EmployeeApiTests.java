@@ -1,9 +1,9 @@
 package com.thoughtworks.springbootemployee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thoughtworks.springbootemployee.controller.Employee;
-import com.thoughtworks.springbootemployee.controller.EmployeeRepository;
-import com.thoughtworks.springbootemployee.controller.exception.EmployeeNotFoundException;
+import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.exception.EmployeeNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
