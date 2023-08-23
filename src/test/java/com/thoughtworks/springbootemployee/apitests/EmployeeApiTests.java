@@ -69,8 +69,8 @@ public class EmployeeApiTests {
 
     @Test
     void should_return_list_of_employees_when_get_employees_given_a_gender() throws Exception {
-        Employee alice = employeeRepository.addAnEmployee(new Employee(1L, "Alice", 25, "Female", 10000, 1L));
-        employeeRepository.addAnEmployee(new Employee(2L, "Bob", 30, "Male", 15000, 2L));
+        Employee alice = employeeRepository.addAnEmployee(new Employee("Alice", 25, "Female", 10000, 1L));
+        employeeRepository.addAnEmployee(new Employee("Bob", 30, "Male", 15000, 2L));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees").param("gender","Female"))
                 .andExpect(status().isOk())
@@ -85,7 +85,7 @@ public class EmployeeApiTests {
 
     @Test
     void should_return_employee_created_when_post_employee_given_new_employee_with_JSON_format() throws Exception {
-        Employee newEmployee = new Employee(null, "Alice", 25, "Female", 10000, 1L);
+        Employee newEmployee = new Employee("Alice", 25, "Female", 10000, 1L);
 
         mockMvcClient.perform(MockMvcRequestBuilders.post("/employees").contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(newEmployee)))
@@ -100,7 +100,7 @@ public class EmployeeApiTests {
 
     @Test
     void should_return_employee_updated_when_put_employee_given_employee_id_with_JSON_format() throws Exception {
-        employeeRepository.addAnEmployee(new Employee(null, "Nameee", 45, "Male", 1000, 2L));
+        employeeRepository.addAnEmployee(new Employee("Nameee", 45, "Male", 1000, 2L));
         Employee initialEmployeeInfo = employeeRepository.getAllEmployees().get(0);
         Employee updatedEmployeeInfo = new Employee(null, null, 50, null, 20000, null);
 
@@ -117,7 +117,7 @@ public class EmployeeApiTests {
 
     @Test
     void should_delete_and_return_no_content_when_delete_employee_given_employee_id() throws Exception {
-        employeeRepository.addAnEmployee(new Employee(null, "Nameee", 45, "Male", 1000, 2L));
+        employeeRepository.addAnEmployee(new Employee("Nameee", 45, "Male", 1000, 2L));
         Employee employeeToDelete = employeeRepository.getAllEmployees().get(0);
 
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + employeeToDelete.getId()))

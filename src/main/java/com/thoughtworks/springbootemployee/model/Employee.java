@@ -1,11 +1,13 @@
 package com.thoughtworks.springbootemployee.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 public class Employee {
 
-    private final Long id;
+    private Long id;
     private final String name;
     private Integer age;
     private final String gender;
@@ -13,14 +15,24 @@ public class Employee {
     private final Long companyId;
     private Boolean isActive;
 
-    public Employee(Long id, String name, Integer age, String gender, Integer salary, Long companyID) {
-        this.id = id;
+    @JsonCreator
+    public Employee(String name, Integer age, String gender, Integer salary, Long companyId) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-        this.companyId = companyID;
+        this.companyId = companyId;
         this.isActive = TRUE;
+    }
+
+    public Employee(Long id, String name, Integer age, String gender, Integer salary, Long companyId) {
+        this(name, age, gender, salary, companyId);
+        this.id = id;
+    }
+
+    public Employee(Long id, Employee employee){
+        this(employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary(), employee.getCompanyId());
+        this.id = id;
     }
 
     public Long getId() {
