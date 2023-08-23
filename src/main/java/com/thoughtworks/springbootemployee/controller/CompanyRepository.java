@@ -1,17 +1,20 @@
 package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.controller.exception.CompanyNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class CompanyRepository {
     private static final List<Company> companies = new ArrayList<>();
 
     static {
-        companies.add(new Company(1L, "firstCompany", new EmployeeRepository().getAllEmployees()));
-        companies.add(new Company(2L, "middleCompany", new EmployeeRepository().getAllEmployees()));
-        companies.add(new Company(3L, "lastCompany", new EmployeeRepository().getAllEmployees()));
+        companies.add(new Company(1L, "firstCompany"));
+        companies.add(new Company(2L, "middleCompany"));
+        companies.add(new Company(3L, "lastCompany"));
     }
 
     public List<Company> listAllCompanies() {
@@ -25,8 +28,8 @@ public class CompanyRepository {
                 .orElseThrow(CompanyNotFoundException::new);
     }
 
-    public List<Employee> getCompanyListOfEmployees(Long id) {
-        return getCompanyById(id).getCompanyEmployees();
+    public List<Employee> getCompanyListOfEmployees(Long companyId, EmployeeRepository employeeRepository) {
+        return employeeRepository.getEmployeesByCompanyId(companyId);
     }
 
     public List<Company> listCompaniesByPage(Integer pageNumber, Integer pageSize) {
@@ -43,7 +46,7 @@ public class CompanyRepository {
 
     public Company updateCompanyById(Long id, Company updatedCompanyInfo) {
         Company companyToBeUpdated = getCompanyById(id);
-        Company updatedCompany = new Company(id, updatedCompanyInfo.getName(), companyToBeUpdated.getCompanyEmployees());
+        Company updatedCompany = new Company(id, updatedCompanyInfo.getName());
 
         companies.set(companies.indexOf(companyToBeUpdated), updatedCompany);
         return updatedCompany;

@@ -11,10 +11,12 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyRepository companyRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public CompanyController(CompanyRepository companyRepository){
+    public CompanyController(CompanyRepository companyRepository, EmployeeRepository employeeRepository){
         this.companyRepository = companyRepository;
+        this.employeeRepository = employeeRepository;
     }
 
     @GetMapping
@@ -29,7 +31,7 @@ public class CompanyController {
 
     @GetMapping("/{id}/employees")
     public List<Employee> getCompanyListOfEmployees(@PathVariable Long id){
-        return companyRepository.getCompanyListOfEmployees(id);
+        return companyRepository.getCompanyListOfEmployees(id, employeeRepository);
     }
 
     @GetMapping(params = {"pageNumber", "pageSize"})

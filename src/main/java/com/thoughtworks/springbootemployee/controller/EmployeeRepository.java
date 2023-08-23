@@ -12,11 +12,11 @@ public class EmployeeRepository {
     private static final List<Employee> employees = new ArrayList<>();
 
     static {
-        employees.add(new Employee(1L, "Alice", 30, "Female", 5000));
-        employees.add(new Employee(2L, "Bob", 31, "Male", 5000));
-        employees.add(new Employee(3L, "Carl", 32, "Male", 5000));
-        employees.add(new Employee(4L, "David", 33, "Male", 5000));
-        employees.add(new Employee(5L, "Ellen", 34, "Female", 5000));
+        employees.add(new Employee(1L, "Alice", 30, "Female", 5000, 1L));
+        employees.add(new Employee(2L, "Bob", 31, "Male", 5000, 2L));
+        employees.add(new Employee(3L, "Carl", 32, "Male", 5000, 3L));
+        employees.add(new Employee(4L, "David", 33, "Male", 5000, 4L));
+        employees.add(new Employee(5L, "Ellen", 34, "Female", 5000, 5L));
     }
 
     public List<Employee> getAllEmployees() {
@@ -42,7 +42,7 @@ public class EmployeeRepository {
 
     public Employee updateEmployeeById(Long id, Employee updatedEmployeeInfo) {
         Employee employeeToBeUpdated = findById(id);
-        Employee updatedEmployee = new Employee(id, employeeToBeUpdated.getName(), updatedEmployeeInfo.getAge(), employeeToBeUpdated.getGender(), updatedEmployeeInfo.getSalary());
+        Employee updatedEmployee = new Employee(id, employeeToBeUpdated.getName(), updatedEmployeeInfo.getAge(), employeeToBeUpdated.getGender(), updatedEmployeeInfo.getSalary(), employeeToBeUpdated.getCompanyId());
 
         employees.set(employees.indexOf(employeeToBeUpdated), updatedEmployee);
         return updatedEmployee;
@@ -58,5 +58,11 @@ public class EmployeeRepository {
         if(toIndex > employees.size())
             toIndex = employees.size();
         return employees.subList(fromIndex, toIndex);
+    }
+
+    public List<Employee> getEmployeesByCompanyId(Long companyId) {
+        return employees.stream()
+                .filter(employee -> employee.getCompanyId().equals(companyId))
+                .collect(Collectors.toList());
     }
 }

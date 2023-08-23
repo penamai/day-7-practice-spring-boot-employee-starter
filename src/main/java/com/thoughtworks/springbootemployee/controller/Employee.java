@@ -9,22 +9,13 @@ public class Employee {
     private final Integer salary;
     private final Long companyId;
 
-    public Employee(Long id, String name, Integer age, String gender, Integer salary) {
+    public Employee(Long id, String name, Integer age, String gender, Integer salary, Long companyID) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salary = salary;
-        this.companyId = null;
-    }
-
-    public Employee(Employee employee, Long companyId) {
-        this.id = employee.getId();
-        this.name = employee.getName();
-        this.age = employee.getAge();
-        this.gender = employee.getGender();
-        this.salary = employee.getSalary();
-        this.companyId = companyId;
+        this.companyId = companyID;
     }
 
     public Long getId() {
