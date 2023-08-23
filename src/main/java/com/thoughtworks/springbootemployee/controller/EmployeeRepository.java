@@ -4,12 +4,16 @@ import com.thoughtworks.springbootemployee.controller.exception.EmployeeNotFound
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 public class EmployeeRepository {
     private static final List<Employee> employees = new ArrayList<>();
+
+    public static final long DEFAULT_INCREMENT = 1L;
 
     static {
         employees.add(new Employee(1L, "Alice", 30, "Female", 5000, 1L));
@@ -37,8 +41,18 @@ public class EmployeeRepository {
     }
 
     public Employee addAnEmployee(Employee employee) {
-        employees.add(employee);
-        return employee;
+        Employee newEmployee = new Employee(generateNextId(), employee.getName(), employee.getAge(), employee.getGender(), employee.getSalary(), employee.getCompanyId());
+        employees.add(newEmployee);
+        return newEmployee;
+    }
+
+    private Long generateNextId() {
+         if(employees.isEmpty()) {
+             return DEFAULT_INCREMENT;
+         }
+         Optional<Employee> employeeWithMaxId = employees.stream()
+                                        .max(Comparator.comparingLong(Employee::getId));
+         return employeeWithMaxId.get().getId() + DEFAULT_INCREMENT;
     }
 
     public Employee updateEmployeeById(Long id, Employee updatedEmployeeInfo) {
