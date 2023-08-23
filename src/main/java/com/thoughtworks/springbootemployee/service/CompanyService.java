@@ -17,4 +17,8 @@ public class CompanyService {
     public Company create(Company company) {
         return companyRepository.addACompany(company);
     }
+
+    public void delete(Long id) {
+        companyRepository.setToInactive(id);
+    }
 }

@@ -74,4 +74,9 @@ public class CompanyRepository {
     public void cleanup() {
         companies.clear();
     }
+
+    public void setToInactive(Long id) {
+        Company companyToDelete = getCompanyById(id);
+        companyToDelete.setAsInactive();
+    }
 }

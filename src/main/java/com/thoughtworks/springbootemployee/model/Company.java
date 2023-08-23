@@ -2,16 +2,19 @@ package com.thoughtworks.springbootemployee.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import java.util.List;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class Company {
     private Long id;
     private final String name;
+    private Boolean isActive;
 
     @JsonCreator
     public Company(String name){
         this.id = null;
         this.name = name;
+        this.isActive = TRUE;
     }
 
     public Company(Long id, String name) {
@@ -32,4 +35,11 @@ public class Company {
         return name;
     }
 
+    public Boolean isActive(){
+        return isActive;
+    }
+
+    public void setAsInactive() {
+        this.isActive = FALSE;
+    }
 }
