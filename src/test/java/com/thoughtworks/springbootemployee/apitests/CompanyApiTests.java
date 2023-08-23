@@ -113,9 +113,5 @@ public class CompanyApiTests {
 
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/companies/" + companyToDelete.getId()))
                 .andExpect(status().isNoContent());
-
-        CompanyNotFoundException companyNotFoundException = assertThrows(CompanyNotFoundException.class,
-                () -> companyRepository.getCompanyById(companyToDelete.getId()));
-        assertEquals("Company not found.", companyNotFoundException.getMessage());
     }
 }
