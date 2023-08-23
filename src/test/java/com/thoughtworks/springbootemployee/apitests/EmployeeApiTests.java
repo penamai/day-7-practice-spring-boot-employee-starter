@@ -125,6 +125,6 @@ public class EmployeeApiTests {
 
         EmployeeNotFoundException employeeNotFoundException = assertThrows(EmployeeNotFoundException.class,
                 () -> employeeRepository.findById(employeeToDelete.getId()));
-        Assertions.assertEquals("Employee not found", employeeNotFoundException.getMessage());
+        Assertions.assertEquals("Employee not found.", employeeNotFoundException.getMessage());
     }
 }
