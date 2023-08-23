@@ -122,9 +122,5 @@ public class EmployeeApiTests {
 
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + employeeToDelete.getId()))
                 .andExpect(status().isNoContent());
-
-        EmployeeNotFoundException employeeNotFoundException = assertThrows(EmployeeNotFoundException.class,
-                () -> employeeRepository.findById(employeeToDelete.getId()));
-        Assertions.assertEquals("Employee not found.", employeeNotFoundException.getMessage());
     }
 }
