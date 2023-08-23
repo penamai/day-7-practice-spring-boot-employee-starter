@@ -36,8 +36,9 @@ public class EmployeeRepository {
                 .collect(Collectors.toList());
     }
 
-    public void addAnEmployee(Employee employee) {
+    public Employee addAnEmployee(Employee employee) {
         employees.add(employee);
+        return employee;
     }
 
     public Employee updateEmployeeById(Long id, Employee updatedEmployeeInfo) {
@@ -64,5 +65,9 @@ public class EmployeeRepository {
         return employees.stream()
                 .filter(employee -> employee.getCompanyId().equals(companyId))
                 .collect(Collectors.toList());
+    }
+
+    public void cleanup() {
+        employees.clear();
     }
 }
