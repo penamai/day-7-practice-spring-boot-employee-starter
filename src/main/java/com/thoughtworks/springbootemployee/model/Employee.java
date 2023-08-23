@@ -41,4 +41,8 @@ public class Employee {
     public Long getCompanyId(){
         return companyId;
     }
+
+    public boolean hasValidAge() {
+        return age >= 18 && age <= 65;
+    }
 }
