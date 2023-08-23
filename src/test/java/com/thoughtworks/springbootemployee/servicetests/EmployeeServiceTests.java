@@ -93,17 +93,14 @@ public class EmployeeServiceTests {
 
         when(mockedEmployeeRepository.findById(employee.getId())).thenReturn(employee);
 
-        employeeService.update(employee.getId(), updatedEmployeeInfo);
+        Employee updatedEmployee = employeeService.update(employee.getId(), updatedEmployeeInfo);
 
-        mockedEmployeeRepository.updateEmployeeById(eq(employee.getId()), argThat( tempEmployee -> {
-            assertTrue(tempEmployee.isActive());
-            assertEquals(employee.getName(), tempEmployee.getName());
-            assertEquals(updatedEmployeeInfo.getAge(), tempEmployee.getAge());
-            assertEquals(employee.getGender(), tempEmployee.getGender());
-            assertEquals(updatedEmployeeInfo.getSalary(), tempEmployee.getSalary());
-            assertEquals(employee.getCompanyId(), tempEmployee.getCompanyId());
-            return true;
-        }));
+        assertTrue(updatedEmployee.isActive());
+        assertEquals(employee.getName(), updatedEmployee.getName());
+        assertEquals(updatedEmployeeInfo.getAge(), updatedEmployee.getAge());
+        assertEquals(employee.getGender(), updatedEmployee.getGender());
+        assertEquals(updatedEmployeeInfo.getSalary(), updatedEmployee.getSalary());
+        assertEquals(employee.getCompanyId(), updatedEmployee.getCompanyId());
     }
 
     @Test
