@@ -146,4 +146,17 @@ public class EmployeeServiceTests {
         assertEquals(employee.getSalary(), retrievedEmployee.getSalary());
         assertEquals(employee.getCompanyId(), retrievedEmployee.getCompanyId());
     }
+    
+    @Test
+    void should_return_female_employees_when_findByGender_given_female_parameter() {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1L, "Ababa", 20, "Female", 10000, 1L));
+        employees.add(new Employee(2L, "Blaire", 54, "Female", 2000, 2L));
+        employees.add(new Employee(3L, "Claire", 35, "Female", 18000, 1L));
+        when(mockedEmployeeRepository.findByGender("Female")).thenReturn(employees);
+
+        List<Employee> retrievedEmployees = employeeService.findByGender("Female");
+
+        assertThat(employees).hasSameElementsAs(retrievedEmployees);
+    }
 }
