@@ -131,4 +131,19 @@ public class EmployeeServiceTests {
 
         assertThat(employees).hasSameElementsAs(retrievedEmployees);
     }
+
+    @Test
+    void should_return_correct_employee_when_findById_given_employee_id() {
+        Employee employee = new Employee(1L, "Ababa", 20, "Female", 10000, 1L);
+        when(mockedEmployeeRepository.findById(employee.getId())).thenReturn(employee);
+
+        Employee retrievedEmployee = employeeService.findById(employee.getId());
+
+        assertEquals(employee.getId(), retrievedEmployee.getId());
+        assertEquals(employee.getName(), retrievedEmployee.getName());
+        assertEquals(employee.getAge(), retrievedEmployee.getAge());
+        assertEquals(employee.getGender(), retrievedEmployee.getGender());
+        assertEquals(employee.getSalary(), retrievedEmployee.getSalary());
+        assertEquals(employee.getCompanyId(), retrievedEmployee.getCompanyId());
+    }
 }
