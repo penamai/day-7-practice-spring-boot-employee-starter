@@ -1,7 +1,7 @@
 package com.thoughtworks.springbootemployee.exception;
 
-public class NotValidEmployeeAge extends RuntimeException{
-    public NotValidEmployeeAge() {
+public class NotValidEmployeeAgeException extends RuntimeException{
+    public NotValidEmployeeAgeException() {
         super("Employee must be 18~65 years old");
     }
 }
