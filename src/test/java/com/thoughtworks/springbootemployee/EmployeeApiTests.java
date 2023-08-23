@@ -1,8 +1,10 @@
 package com.thoughtworks.springbootemployee;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.springbootemployee.controller.Employee;
 import com.thoughtworks.springbootemployee.controller.EmployeeRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +97,21 @@ public class EmployeeApiTests {
                 .andExpect(jsonPath("$.companyId").value(newEmployee.getCompanyId()));
     }
 
+    @Test
+    void should_return_employee_updated_when_put_employee_given_employee_id_with_JSON_format() throws Exception {
+        employeeRepository.addAnEmployee(new Employee(null, "Nameee", 45, "Male", 1000, 2L));
+        Employee initialEmployeeInfo = employeeRepository.getAllEmployees().get(0);
+        Employee updatedEmployeeInfo = new Employee(null, null, 50, null, 20000, null);
+
+        mockMvcClient.perform(MockMvcRequestBuilders.put("/employees/" + initialEmployeeInfo.getId()).contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(updatedEmployeeInfo)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.name").value(initialEmployeeInfo.getName()))
+                .andExpect(jsonPath("$.age").value(updatedEmployeeInfo.getAge()))
+                .andExpect(jsonPath("$.gender").value(initialEmployeeInfo.getGender()))
+                .andExpect(jsonPath("$.salary").value(updatedEmployeeInfo.getSalary()))
+                .andExpect(jsonPath("$.companyId").value(initialEmployeeInfo.getCompanyId()));
+    }
 
 }
