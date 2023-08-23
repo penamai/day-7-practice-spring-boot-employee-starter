@@ -97,4 +97,15 @@ public class CompanyServiceTest {
 
         assertThat(companies).hasSameElementsAs(retrievedCompanies);
     }
+
+    @Test
+    void should_return_correct_company_when_findById_given_company_Id() {
+        Company company = new Company(1L, "Harmony");
+        when(mockedCompanyRepository.getCompanyById(company.getId())).thenReturn(company);
+
+        Company retrievedCompany = companyService.findById(company.getId());
+
+        assertEquals(company.getId(), retrievedCompany.getId());
+        assertEquals(company.getName(), retrievedCompany.getName());
+    }
 }

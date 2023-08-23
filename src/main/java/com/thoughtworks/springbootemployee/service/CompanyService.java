@@ -37,4 +37,8 @@ public class CompanyService {
     public List<Company> findAll() {
         return companyRepository.listAllCompanies();
     }
+
+    public Company findById(Long id) {
+        return companyRepository.getCompanyById(id);
+    }
 }
