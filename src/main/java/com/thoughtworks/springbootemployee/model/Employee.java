@@ -1,14 +1,17 @@
 package com.thoughtworks.springbootemployee.model;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+
 public class Employee {
 
     private final Long id;
     private final String name;
-    private final Integer age;
+    private Integer age;
     private final String gender;
-    private final Integer salary;
+    private Integer salary;
     private final Long companyId;
-    private boolean isActive;
+    private Boolean isActive;
 
     public Employee(Long id, String name, Integer age, String gender, Integer salary, Long companyID) {
         this.id = id;
@@ -17,7 +20,7 @@ public class Employee {
         this.gender = gender;
         this.salary = salary;
         this.companyId = companyID;
-        this.isActive = true;
+        this.isActive = TRUE;
     }
 
     public Long getId() {
@@ -48,7 +51,16 @@ public class Employee {
         return age >= 18 && age <= 65;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return isActive;
+    }
+
+    public void setToInactive() {
+        this.isActive = FALSE;
+    }
+
+    public void update(Employee updatedEmployeeInfo) {
+        this.age = updatedEmployeeInfo.getAge();
+        this.salary = updatedEmployeeInfo.getSalary();
     }
 }

@@ -58,10 +58,9 @@ public class EmployeeRepository {
 
     public Employee updateEmployeeById(Long id, Employee updatedEmployeeInfo) {
         Employee employeeToBeUpdated = findById(id);
-        Employee updatedEmployee = new Employee(id, employeeToBeUpdated.getName(), updatedEmployeeInfo.getAge(), employeeToBeUpdated.getGender(), updatedEmployeeInfo.getSalary(), employeeToBeUpdated.getCompanyId());
+        employeeToBeUpdated.update(updatedEmployeeInfo);
 
-        employees.set(employees.indexOf(employeeToBeUpdated), updatedEmployee);
-        return updatedEmployee;
+        return employeeToBeUpdated;
     }
 
     public void deleteEmployeeById(Long id) {
@@ -84,5 +83,10 @@ public class EmployeeRepository {
 
     public void cleanup() {
         employees.clear();
+    }
+
+    public void setToInactive(Long id) {
+        Employee employeeToDelete = findById(id);
+        employeeToDelete.setToInactive();
     }
 }
