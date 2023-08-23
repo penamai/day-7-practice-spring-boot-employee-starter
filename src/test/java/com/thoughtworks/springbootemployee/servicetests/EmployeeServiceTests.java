@@ -9,6 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -113,5 +117,18 @@ public class EmployeeServiceTests {
                 () -> employeeService.update(employee.getId(), updatedEmployeeInfo));
 
         assertEquals("Employee is inactive", inactiveEmployeeException.getMessage());
+    }
+
+    @Test
+    void should_return_all_employees_when_findAll_employees_given_employeeRepository() {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(1L, "Ababa", 20, "Female", 10000, 1L));
+        employees.add(new Employee(2L, "Brrr", 54, "Male", 2000, 2L));
+        employees.add(new Employee(3L, "Cheess", 35, "Male", 18000, 1L));
+        when(mockedEmployeeRepository.getAllEmployees()).thenReturn(employees);
+
+        List<Employee> retrievedEmployees = employeeService.findAll();
+
+        assertThat(employees).hasSameElementsAs(retrievedEmployees);
     }
 }

@@ -7,6 +7,8 @@ import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
@@ -32,5 +34,9 @@ public class EmployeeService {
             throw new InactiveEmployeeException();
         employeeToUpdate.update(updatedEmployeeInfo);
         return employeeToUpdate;
+    }
+
+    public List<Employee> findAll() {
+        return employeeRepository.getAllEmployees();
     }
 }
