@@ -8,6 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -79,6 +83,18 @@ public class CompanyServiceTest {
                 () -> companyService.update(company.getId(), updatedCompanyInfo));
 
         assertEquals("Company is inactive", inactiveEmployeeException.getMessage());
+    }
 
+    @Test
+    void should_return_all_companies_when_findAll() {
+        List<Company> companies = new ArrayList<>();
+        companies.add(new Company(1L, "JAJAJA"));
+        companies.add(new Company(2L, "stuq"));
+        companies.add(new Company(3L, "woooo"));
+        when(mockedCompanyRepository.listAllCompanies()).thenReturn(companies);
+
+        List<Company> retrievedCompanies = companyService.findAll();
+
+        assertThat(companies).hasSameElementsAs(retrievedCompanies);
     }
 }

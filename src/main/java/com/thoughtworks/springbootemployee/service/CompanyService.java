@@ -6,6 +6,8 @@ import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
@@ -30,5 +32,9 @@ public class CompanyService {
         companyToUpdate.update(updatedCompanyInfo);
 
         return companyToUpdate;
+    }
+
+    public List<Company> findAll() {
+        return companyRepository.listAllCompanies();
     }
 }
