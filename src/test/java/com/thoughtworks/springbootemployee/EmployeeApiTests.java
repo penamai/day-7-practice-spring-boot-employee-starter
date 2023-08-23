@@ -1,9 +1,9 @@
 package com.thoughtworks.springbootemployee;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.springbootemployee.controller.Employee;
 import com.thoughtworks.springbootemployee.controller.EmployeeRepository;
+import com.thoughtworks.springbootemployee.controller.exception.EmployeeNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -114,4 +115,16 @@ public class EmployeeApiTests {
                 .andExpect(jsonPath("$.companyId").value(initialEmployeeInfo.getCompanyId()));
     }
 
+    @Test
+    void should_delete_and_return_no_content_when_delete_employee_given_employee_id() throws Exception {
+        employeeRepository.addAnEmployee(new Employee(null, "Nameee", 45, "Male", 1000, 2L));
+        Employee employeeToDelete = employeeRepository.getAllEmployees().get(0);
+
+        mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + employeeToDelete.getId()))
+                .andExpect(status().isNoContent());
+
+        EmployeeNotFoundException employeeNotFoundException = assertThrows(EmployeeNotFoundException.class,
+                () -> employeeRepository.findById(employeeToDelete.getId()));
+        Assertions.assertEquals("Employee not found", employeeNotFoundException.getMessage());
+    }
 }
