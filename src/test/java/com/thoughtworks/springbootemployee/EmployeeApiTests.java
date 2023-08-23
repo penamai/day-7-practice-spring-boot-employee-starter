@@ -39,4 +39,20 @@ public class EmployeeApiTests {
                 .andExpect(jsonPath("$[0].salary").value(alice.getSalary()))
                 .andExpect(jsonPath("$[0].companyId").value(alice.getCompanyId()));
     }
+
+    @Test
+    void should_return_right_employee_when_get_employee_given_employee_id() throws Exception {
+        Employee alice = employeeRepository.addAnEmployee(new Employee(1L, "Alice", 25, "Female", 10000, 1L));
+        employeeRepository.addAnEmployee(new Employee(2L, "Bob", 30, "Male", 15000, 2L));
+
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + alice.getId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(alice.getId()))
+                .andExpect(jsonPath("$.name").value(alice.getName()))
+                .andExpect(jsonPath("$.age").value(alice.getAge()))
+                .andExpect(jsonPath("$.gender").value(alice.getGender()))
+                .andExpect(jsonPath("$.salary").value(alice.getSalary()))
+                .andExpect(jsonPath("$.companyId").value(alice.getCompanyId()));
+    }
+
 }
