@@ -80,4 +80,24 @@ public class EmployeeServiceTests {
             return true;
         }));
     }
+
+    @Test
+    void should_return_updated_employee_when_update_employee_given_active_employee() {
+        Employee employee = new Employee(1L, "Delilah", 50, "Female", 10000, 2L);
+        Employee updatedEmployeeInfo = new Employee(null, 51, "Female", 11000, null);
+
+        when(mockedEmployeeRepository.findById(employee.getId())).thenReturn(employee);
+
+        employeeService.update(employee.getId(), updatedEmployeeInfo);
+
+        mockedEmployeeRepository.updateEmployeeById(eq(employee.getId()), argThat( tempEmployee -> {
+            assertTrue(tempEmployee.isActive());
+            assertEquals(employee.getName(), tempEmployee.getName());
+            assertEquals(updatedEmployeeInfo.getAge(), tempEmployee.getAge());
+            assertEquals(employee.getGender(), tempEmployee.getGender());
+            assertEquals(updatedEmployeeInfo.getSalary(), tempEmployee.getSalary());
+            assertEquals(employee.getCompanyId(), tempEmployee.getCompanyId());
+            return true;
+        }));
+    }
 }

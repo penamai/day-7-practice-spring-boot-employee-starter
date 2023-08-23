@@ -24,4 +24,8 @@ public class EmployeeService {
     public void delete(Long id) {
         employeeRepository.setToInactive(id);
     }
+
+    public Employee update(Long id, Employee updatedEmployeeInfo) {
+        return employeeRepository.updateEmployeeById(id, updatedEmployeeInfo);
+    }
 }
