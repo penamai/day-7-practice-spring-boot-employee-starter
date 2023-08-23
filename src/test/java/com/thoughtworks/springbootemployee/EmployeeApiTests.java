@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thoughtworks.springbootemployee.controller.Employee;
 import com.thoughtworks.springbootemployee.controller.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.hamcrest.Matchers.hasSize;
@@ -55,16 +57,17 @@ public class EmployeeApiTests {
                 .andExpect(jsonPath("$.companyId").value(alice.getCompanyId()));
     }
 
-        @Test
+    @Test
     void should_return_404_not_found_when_get_employee_given_not_existing_employee_id() throws Exception {
-        Long notExistingEmployeeId = 99L;
+        long notExistingEmployeeId = 99L;
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + notExistingEmployeeId))
                 .andExpect(status().isNotFound());
     }
+
     @Test
     void should_return_list_of_employees_when_get_employees_given_a_gender() throws Exception {
         Employee alice = employeeRepository.addAnEmployee(new Employee(1L, "Alice", 25, "Female", 10000, 1L));
-        Employee bob = employeeRepository.addAnEmployee(new Employee(2L, "Bob", 30, "Male", 15000, 2L));
+        employeeRepository.addAnEmployee(new Employee(2L, "Bob", 30, "Male", 15000, 2L));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees").param("gender","Female"))
                 .andExpect(status().isOk())
@@ -76,4 +79,21 @@ public class EmployeeApiTests {
                 .andExpect(jsonPath("$[0].salary").value(alice.getSalary()))
                 .andExpect(jsonPath("$[0].companyId").value(alice.getCompanyId()));
     }
+
+    @Test
+    void should_return_employee_created_when_post_employee_given_new_employee_with_JSON_format() throws Exception {
+        Employee newEmployee = new Employee(null, "Alice", 25, "Female", 10000, 1L);
+
+        mockMvcClient.perform(MockMvcRequestBuilders.post("/employees").contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(newEmployee)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.name").value(newEmployee.getName()))
+                .andExpect(jsonPath("$.age").value(newEmployee.getAge()))
+                .andExpect(jsonPath("$.gender").value(newEmployee.getGender()))
+                .andExpect(jsonPath("$.salary").value(newEmployee.getSalary()))
+                .andExpect(jsonPath("$.companyId").value(newEmployee.getCompanyId()));
+    }
+
+
 }
