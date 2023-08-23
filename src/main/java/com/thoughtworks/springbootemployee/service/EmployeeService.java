@@ -33,6 +33,7 @@ public class EmployeeService {
         if(!employeeToUpdate.isActive())
             throw new InactiveEmployeeException();
         employeeToUpdate.update(updatedEmployeeInfo);
+
         return employeeToUpdate;
     }
 
@@ -46,5 +47,9 @@ public class EmployeeService {
 
     public List<Employee> findByGender(String gender) {
         return employeeRepository.findByGender(gender);
+    }
+
+    public List<Employee> findByPage(Integer pageNumber, Integer pageSize) {
+        return employeeRepository.listEmployeesByPage(pageNumber, pageSize);
     }
 }
