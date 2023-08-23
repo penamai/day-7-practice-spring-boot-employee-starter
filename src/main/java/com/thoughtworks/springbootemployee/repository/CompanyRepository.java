@@ -2,7 +2,6 @@ package com.thoughtworks.springbootemployee.repository;
 
 import com.thoughtworks.springbootemployee.exception.CompanyNotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
-import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -30,10 +29,6 @@ public class CompanyRepository {
                 .filter(company -> company.getId().equals(id))
                 .findFirst()
                 .orElseThrow(CompanyNotFoundException::new);
-    }
-
-    public List<Employee> getCompanyListOfEmployees(Long companyId, EmployeeRepository employeeRepository) {
-        return employeeRepository.getEmployeesByCompanyId(companyId);
     }
 
     public List<Company> listCompaniesByPage(Integer pageNumber, Integer pageSize) {
@@ -65,10 +60,6 @@ public class CompanyRepository {
 
         companies.set(companies.indexOf(companyToBeUpdated), updatedCompany);
         return updatedCompany;
-    }
-
-    public void deleteCompanyById(Long id) {
-        companies.remove(getCompanyById(id));
     }
 
     public void cleanup() {
