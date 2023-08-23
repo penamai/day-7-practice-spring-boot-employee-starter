@@ -55,4 +55,10 @@ public class EmployeeApiTests {
                 .andExpect(jsonPath("$.companyId").value(alice.getCompanyId()));
     }
 
+        @Test
+    void should_return_404_not_found_when_get_employee_given_not_existing_employee_id() throws Exception {
+        Long notExistingEmployeeId = 99L;
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + notExistingEmployeeId))
+                .andExpect(status().isNotFound());
+    }
 }
