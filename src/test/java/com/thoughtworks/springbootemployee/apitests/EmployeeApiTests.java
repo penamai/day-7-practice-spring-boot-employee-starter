@@ -28,7 +28,7 @@ public class EmployeeApiTests {
     }
 
     @Test
-    void should_return_employees_when_get_employees_given_employeeRepository() throws Exception {
+    void should_return_employees_when_get_employees() throws Exception {
         Employee alice = employeeRepository.addAnEmployee(new Employee(1L, "Alice", 25, "Female", 10000, 1L));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees"))
