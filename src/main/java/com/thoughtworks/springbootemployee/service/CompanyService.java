@@ -41,4 +41,8 @@ public class CompanyService {
     public Company findById(Long id) {
         return companyRepository.getCompanyById(id);
     }
+
+    public List<Company> findByPage(Integer pageNumber, Integer pageSize) {
+        return companyRepository.listCompaniesByPage(pageNumber, pageSize);
+    }
 }

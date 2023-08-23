@@ -108,4 +108,17 @@ public class CompanyServiceTest {
         assertEquals(company.getId(), retrievedCompany.getId());
         assertEquals(company.getName(), retrievedCompany.getName());
     }
+
+    @Test
+    void should_return_correct_list_of_companies_when_findByPage_given_pageSize_and_pageNumber() {
+        List<Company> companies = new ArrayList<>();
+        companies.add(new Company(1L, "JAJAJA"));
+        companies.add(new Company(2L, "stuq"));
+        companies.add(new Company(3L, "woooo"));
+        when(mockedCompanyRepository.listCompaniesByPage(1,3)).thenReturn(companies);
+
+        List<Company> retrievedCompanies = companyService.findByPage(1,3);
+
+        assertThat(companies).hasSameElementsAs(retrievedCompanies);
+    }
 }
