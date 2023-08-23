@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.servicetests;
 
-import com.thoughtworks.springbootemployee.exception.NotValidEmployeeAge;
+import com.thoughtworks.springbootemployee.exception.InactiveEmployeeException;
+import com.thoughtworks.springbootemployee.exception.NotValidEmployeeAgeException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
@@ -46,20 +47,20 @@ public class EmployeeServiceTests {
     void should_return_exception_error_when_create_given_employee_with_age_less_than_18() {
         Employee employee = new Employee(null, "Lucy", 16, "Female", 5000, 1L);
 
-        NotValidEmployeeAge notValidEmployeeAge = assertThrows(NotValidEmployeeAge.class,
+        NotValidEmployeeAgeException notValidEmployeeAgeException = assertThrows(NotValidEmployeeAgeException.class,
                 () -> employeeService.create(employee));
 
-        assertEquals("Employee must be 18~65 years old", notValidEmployeeAge.getMessage());
+        assertEquals("Employee must be 18~65 years old", notValidEmployeeAgeException.getMessage());
     }
 
     @Test
     void should_return_exception_error_when_create_given_employee_with_age_greater_than_65() {
         Employee employee = new Employee(null, "Lucy", 80, "Female", 10000, 1L);
 
-        NotValidEmployeeAge notValidEmployeeAge = assertThrows(NotValidEmployeeAge.class,
+        NotValidEmployeeAgeException notValidEmployeeAgeException = assertThrows(NotValidEmployeeAgeException.class,
                 () -> employeeService.create(employee));
 
-        assertEquals("Employee must be 18~65 years old", notValidEmployeeAge.getMessage());
+        assertEquals("Employee must be 18~65 years old", notValidEmployeeAgeException.getMessage());
     }
 
     @Test
@@ -99,5 +100,18 @@ public class EmployeeServiceTests {
             assertEquals(employee.getCompanyId(), tempEmployee.getCompanyId());
             return true;
         }));
+    }
+
+    @Test
+    void should_return_exceptionError_when_update_employee_given_inactive_employee() {
+        Employee employee = new Employee(1L, "Delilah", 50, "Female", 10000, 2L);
+        Employee updatedEmployeeInfo = new Employee(null, 51, "Female", 11000, null);
+        employee.setToInactive();
+        when(mockedEmployeeRepository.findById(employee.getId())).thenReturn(employee);
+
+        InactiveEmployeeException inactiveEmployeeException = assertThrows(InactiveEmployeeException.class,
+                () -> employeeService.update(employee.getId(), updatedEmployeeInfo));
+
+        assertEquals("Employee is inactive", inactiveEmployeeException.getMessage());
     }
 }

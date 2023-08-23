@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.exception.NotValidEmployeeAge;
+import com.thoughtworks.springbootemployee.exception.InactiveEmployeeException;
+import com.thoughtworks.springbootemployee.exception.NotValidEmployeeAgeException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class EmployeeService {
 
     public Employee create(Employee employee) {
         if(!employee.hasValidAge())
-            throw new NotValidEmployeeAge();
+            throw new NotValidEmployeeAgeException();
         return employeeRepository.addAnEmployee(employee);
     }
 
@@ -26,6 +27,10 @@ public class EmployeeService {
     }
 
     public Employee update(Long id, Employee updatedEmployeeInfo) {
-        return employeeRepository.updateEmployeeById(id, updatedEmployeeInfo);
+        Employee employeeToUpdate = employeeRepository.findById(id);
+        if(!employeeToUpdate.isActive())
+            throw new InactiveEmployeeException();
+        employeeToUpdate.update(updatedEmployeeInfo);
+        return employeeToUpdate;
     }
 }
