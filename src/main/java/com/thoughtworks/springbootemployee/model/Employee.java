@@ -7,6 +7,8 @@ import static java.lang.Boolean.TRUE;
 
 public class Employee {
 
+    public static final int MINIMUM_VALID_AGE = 18;
+    public static final int MAXIMUM_VALID_AGE = 65;
     private Long id;
     private final String name;
     private Integer age;
@@ -60,7 +62,7 @@ public class Employee {
     }
 
     public boolean hasValidAge() {
-        return age >= 18 && age <= 65;
+        return age >= MINIMUM_VALID_AGE && age <= MAXIMUM_VALID_AGE;
     }
 
     public Boolean isActive() {
