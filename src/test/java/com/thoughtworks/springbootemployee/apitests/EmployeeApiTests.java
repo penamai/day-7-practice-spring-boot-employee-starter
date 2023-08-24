@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -119,5 +120,21 @@ public class EmployeeApiTests {
 
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + employeeToDelete.getId()))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void should_return_correct_list_of_employees_when_get_employees_given_pageNumber_and_pageSize() throws Exception {
+        Employee alice = employeeRepository.addAnEmployee(new Employee("Alice", 25, "Female", 10000, 1L));
+        employeeRepository.addAnEmployee(new Employee("Bob", 30, "Male", 15000, 2L));
+
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/employees").param("pageNumber","1").param("pageSize","1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id").value(alice.getId()))
+                .andExpect(jsonPath("$[0].name").value(alice.getName()))
+                .andExpect(jsonPath("$[0].age").value(alice.getAge()))
+                .andExpect(jsonPath("$[0].gender").value(alice.getGender()))
+                .andExpect(jsonPath("$[0].salary").value(alice.getSalary()))
+                .andExpect(jsonPath("$[0].companyId").value(alice.getCompanyId()));
     }
 }
