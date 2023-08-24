@@ -36,7 +36,7 @@ public class CompanyApiTests {
 
     @Test
     void should_return_companies_when_get_companies_given_companyRepository() throws Exception {
-        Company company = companyRepository.addACompany(new Company("Bruhh Inc."));
+        Company company = companyRepository.add(new Company("Bruhh Inc."));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/companies"))
                 .andExpect(status().isOk())
@@ -47,8 +47,8 @@ public class CompanyApiTests {
 
     @Test
     void should_return_correct_company_when_get_company_given_company_id() throws Exception {
-        Company firstCompany = companyRepository.addACompany(new Company("Bruhh Inc."));
-        companyRepository.addACompany(new Company("secondCompany"));
+        Company firstCompany = companyRepository.add(new Company("Bruhh Inc."));
+        companyRepository.add(new Company("secondCompany"));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/companies/" + firstCompany.getId()))
                 .andExpect(status().isOk())
@@ -66,8 +66,8 @@ public class CompanyApiTests {
     @Test
     void should_return_list_of_employees_when_get_company_employees_given_company_id() throws Exception {
         employeeRepository.cleanup();
-        Company company = companyRepository.addACompany(new Company("Bruhhhh Corp."));
-        Employee employee = employeeRepository.addAnEmployee(new Employee("Chris", 23, "Male", 9090, company.getId()));
+        Company company = companyRepository.add(new Company("Bruhhhh Corp."));
+        Employee employee = employeeRepository.add(new Employee("Chris", 23, "Male", 9090, company.getId()));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/companies/" + company.getId() + "/employees"))
                 .andExpect(status().isOk())
@@ -82,7 +82,7 @@ public class CompanyApiTests {
 
     @Test
     void should_return_company_created_when_post_company_given_company_with_JSON_Format() throws Exception {
-        Company company = companyRepository.addACompany(new Company("Bruhhhh Corp."));
+        Company company = companyRepository.add(new Company("Bruhhhh Corp."));
 
         mockMvcClient.perform(MockMvcRequestBuilders.post("/companies").contentType(MediaType.APPLICATION_JSON)
                     .content(new ObjectMapper().writeValueAsString(company)))
@@ -93,8 +93,8 @@ public class CompanyApiTests {
 
     @Test
     void should_return_company_updated_when_put_company_given_company_id_with_JSON_format() throws Exception{
-        companyRepository.addACompany(new Company("Bruhhhh Corp."));
-        Company initialCompanyInfo = companyRepository.listAllCompanies().get(0);
+        companyRepository.add(new Company("Bruhhhh Corp."));
+        Company initialCompanyInfo = companyRepository.findAll().get(0);
         Company updatedCompanyInfo = new Company(null, "Rebranding Inc");
 
         mockMvcClient.perform(MockMvcRequestBuilders.put("/companies/" + initialCompanyInfo.getId()).contentType(MediaType.APPLICATION_JSON)
@@ -106,8 +106,8 @@ public class CompanyApiTests {
 
     @Test
     void should_delete_and_return_no_content_when_delete_company_given_company_id() throws Exception {
-        companyRepository.addACompany(new Company("Bruhhhh Corp."));
-        Company companyToDelete = companyRepository.listAllCompanies().get(0);
+        companyRepository.add(new Company("Bruhhhh Corp."));
+        Company companyToDelete = companyRepository.findAll().get(0);
 
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/companies/" + companyToDelete.getId()))
                 .andExpect(status().isNoContent());
@@ -115,8 +115,8 @@ public class CompanyApiTests {
     
     @Test
     void should_return_correct_list_of_companies_when_get_companies_given_pageNumber_and_pageSize() throws Exception {
-        Company company = companyRepository.addACompany(new Company("firstCompany"));
-        companyRepository.addACompany(new Company("secondCompany"));
+        Company company = companyRepository.add(new Company("firstCompany"));
+        companyRepository.add(new Company("secondCompany"));
         
         mockMvcClient.perform(MockMvcRequestBuilders.get("/companies").param("pageNumber","1").param("pageSize","1"))
                 .andExpect(status().isOk())

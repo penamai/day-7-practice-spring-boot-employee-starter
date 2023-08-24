@@ -20,18 +20,18 @@ public class CompanyRepository {
         companies.add(new Company(3L, "lastCompany"));
     }
 
-    public List<Company> listAllCompanies() {
+    public List<Company> findAll() {
         return companies;
     }
 
-    public Company getCompanyById(Long id) {
+    public Company findById(Long id) {
         return companies.stream()
                 .filter(company -> company.getId().equals(id))
                 .findFirst()
                 .orElseThrow(CompanyNotFoundException::new);
     }
 
-    public List<Company> listCompaniesByPage(Integer pageNumber, Integer pageSize) {
+    public List<Company> findByPage(Integer pageNumber, Integer pageSize) {
         int fromIndex = pageSize * (pageNumber - 1);
         int toIndex = fromIndex + pageSize;
         if (toIndex > companies.size())
@@ -39,7 +39,7 @@ public class CompanyRepository {
         return companies.subList(fromIndex, toIndex);
     }
 
-    public Company addACompany(Company company) {
+    public Company add(Company company) {
         Company newCompany = new Company(generateNextId(), company);
         companies.add(newCompany);
         return newCompany;
@@ -54,8 +54,8 @@ public class CompanyRepository {
         return companyWithMaxId.get().getId() + DEFAULT_INCREMENT;
     }
 
-    public Company updateCompanyById(Long id, Company updatedCompanyInfo) {
-        Company companyToBeUpdated = getCompanyById(id);
+    public Company update(Long id, Company updatedCompanyInfo) {
+        Company companyToBeUpdated = findById(id);
         companyToBeUpdated.update(updatedCompanyInfo);
 
         return companyToBeUpdated;
@@ -66,7 +66,7 @@ public class CompanyRepository {
     }
 
     public void setToInactive(Long id) {
-        Company companyToDelete = getCompanyById(id);
+        Company companyToDelete = findById(id);
         companyToDelete.setToInactive();
     }
 }

@@ -34,7 +34,7 @@ public class EmployeeServiceTests {
     void should_return_created_employee_when_create_given_employee_with_valid_age() {
         Employee employee = new Employee(null, "Lucy", 20, "Female", 3000, 1L);
         Employee savedEmployee = new Employee(1L, "Lucy", 20, "Female", 3000, 1L);
-        when(mockedEmployeeRepository.addAnEmployee(employee)).thenReturn(savedEmployee);
+        when(mockedEmployeeRepository.add(employee)).thenReturn(savedEmployee);
 
         Employee createdEmployee = employeeService.create(employee);
 
@@ -75,7 +75,7 @@ public class EmployeeServiceTests {
 
         employeeService.delete(employee.getId());
 
-        mockedEmployeeRepository.updateEmployeeById(eq(employee.getId()), argThat(tempEmployee -> {
+        mockedEmployeeRepository.update(eq(employee.getId()), argThat(tempEmployee -> {
             assertFalse(tempEmployee.isActive());
             assertEquals("Lucy", tempEmployee.getName());
             assertEquals(35, tempEmployee.getAge());
@@ -93,7 +93,7 @@ public class EmployeeServiceTests {
         Employee updatedEmployee = new Employee(employee.getId(),employee.getName(),updatedEmployeeInfo.getAge(),employee.getGender(), updatedEmployeeInfo.getSalary(), employee.getCompanyId());
 
         when(mockedEmployeeRepository.findById(employee.getId())).thenReturn(employee);
-        when(mockedEmployeeRepository.updateEmployeeById(employee.getId(), updatedEmployeeInfo)).thenReturn(updatedEmployee);
+        when(mockedEmployeeRepository.update(employee.getId(), updatedEmployeeInfo)).thenReturn(updatedEmployee);
 
         Employee retrievedEmployee = employeeService.update(employee.getId(), updatedEmployeeInfo);
 
@@ -124,7 +124,7 @@ public class EmployeeServiceTests {
         employees.add(new Employee(1L, "Ababa", 20, "Female", 10000, 1L));
         employees.add(new Employee(2L, "Brrr", 54, "Male", 2000, 2L));
         employees.add(new Employee(3L, "Cheess", 35, "Male", 18000, 1L));
-        when(mockedEmployeeRepository.getAllEmployees()).thenReturn(employees);
+        when(mockedEmployeeRepository.findAll()).thenReturn(employees);
 
         List<Employee> retrievedEmployees = employeeService.findAll();
 
@@ -165,7 +165,7 @@ public class EmployeeServiceTests {
         employees.add(new Employee(1L, "Ababa", 20, "Female", 10000, 1L));
         employees.add(new Employee(2L, "Brrr", 54, "Male", 2000, 2L));
         employees.add(new Employee(3L, "Cheess", 35, "Male", 18000, 1L));
-        when(mockedEmployeeRepository.listEmployeesByPage(1, 3)).thenReturn(employees);
+        when(mockedEmployeeRepository.findByPage(1, 3)).thenReturn(employees);
 
         List<Employee> retrievedEmployees = employeeService.findByPage(1, 3);
 

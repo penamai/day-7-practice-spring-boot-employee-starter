@@ -38,7 +38,7 @@ public class CompanyServiceTest {
     void should_return_created_company_when_create_company_given_company() {
         Company company = new Company("Company name");
         Company savedCompany = new Company(1L, "Company name");
-        when(mockedCompanyRepository.addACompany(company)).thenReturn(savedCompany);
+        when(mockedCompanyRepository.add(company)).thenReturn(savedCompany);
 
         Company createdCompany = companyService.create(company);
 
@@ -50,11 +50,11 @@ public class CompanyServiceTest {
     void should_set_active_false_when_delete_given_company_id() {
         Company company = new Company(1L, "Couchpany");
 
-        when(mockedCompanyRepository.getCompanyById(company.getId())).thenReturn(company);
+        when(mockedCompanyRepository.findById(company.getId())).thenReturn(company);
 
         companyService.delete(company.getId());
 
-        mockedCompanyRepository.updateCompanyById(eq(company.getId()), argThat(tempCompany -> {
+        mockedCompanyRepository.update(eq(company.getId()), argThat(tempCompany -> {
             assertFalse(tempCompany.isActive());
             assertEquals(1L, tempCompany.getId());
             assertEquals("Couchpany", tempCompany.getName());
@@ -68,8 +68,8 @@ public class CompanyServiceTest {
         Company updatedCompanyInfo = new Company (null, "BrandNameNew");
         Company updatedCompany = new Company(company.getId(), updatedCompanyInfo.getName());
 
-        when(mockedCompanyRepository.getCompanyById(company.getId())).thenReturn(company);
-        when(mockedCompanyRepository.updateCompanyById(company.getId(),updatedCompanyInfo)).thenReturn(updatedCompany);
+        when(mockedCompanyRepository.findById(company.getId())).thenReturn(company);
+        when(mockedCompanyRepository.update(company.getId(),updatedCompanyInfo)).thenReturn(updatedCompany);
 
         Company retrievedCompany = companyService.update(company.getId(), updatedCompanyInfo);
 
@@ -83,7 +83,7 @@ public class CompanyServiceTest {
         Company company = new Company(1L, "inactivee");
         Company updatedCompanyInfo = new Company(null, "Brandname");
         company.setToInactive();
-        when(mockedCompanyRepository.getCompanyById(company.getId())).thenReturn(company);
+        when(mockedCompanyRepository.findById(company.getId())).thenReturn(company);
 
         InactiveCompanyException inactiveEmployeeException = assertThrows(InactiveCompanyException.class,
                 () -> companyService.update(company.getId(), updatedCompanyInfo));
@@ -97,7 +97,7 @@ public class CompanyServiceTest {
         companies.add(new Company(1L, "JAJAJA"));
         companies.add(new Company(2L, "stuq"));
         companies.add(new Company(3L, "woooo"));
-        when(mockedCompanyRepository.listAllCompanies()).thenReturn(companies);
+        when(mockedCompanyRepository.findAll()).thenReturn(companies);
 
         List<Company> retrievedCompanies = companyService.findAll();
 
@@ -107,7 +107,7 @@ public class CompanyServiceTest {
     @Test
     void should_return_correct_company_when_findById_given_company_Id() {
         Company company = new Company(1L, "Harmony");
-        when(mockedCompanyRepository.getCompanyById(company.getId())).thenReturn(company);
+        when(mockedCompanyRepository.findById(company.getId())).thenReturn(company);
 
         Company retrievedCompany = companyService.findById(company.getId());
 
@@ -121,7 +121,7 @@ public class CompanyServiceTest {
         companies.add(new Company(1L, "JAJAJA"));
         companies.add(new Company(2L, "stuq"));
         companies.add(new Company(3L, "woooo"));
-        when(mockedCompanyRepository.listCompaniesByPage(1,3)).thenReturn(companies);
+        when(mockedCompanyRepository.findByPage(1,3)).thenReturn(companies);
 
         List<Company> retrievedCompanies = companyService.findByPage(1,3);
 
@@ -134,7 +134,7 @@ public class CompanyServiceTest {
         employees.add(new Employee(1L, "Ababa", 20, "Female", 10000, 1L));
         employees.add(new Employee(1L, "Brrr", 54, "Male", 2000, 2L));
         employees.add(new Employee(1L, "Cheess", 35, "Male", 18000, 1L));
-        when(mockedEmployeeRepository.getEmployeesByCompanyId(1L)).thenReturn(employees);
+        when(mockedEmployeeRepository.findByCompanyId(1L)).thenReturn(employees);
 
         List<Employee> retrievedEmployees = companyService.findAllEmployees(1L);
 

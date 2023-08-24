@@ -21,7 +21,7 @@ public class EmployeeService {
     public Employee create(Employee employee) {
         if(!employee.hasValidAge())
             throw new NotValidEmployeeAgeException();
-        return employeeRepository.addAnEmployee(employee);
+        return employeeRepository.add(employee);
     }
 
     public void delete(Long id) {
@@ -33,11 +33,11 @@ public class EmployeeService {
         if(!employeeToUpdate.isActive())
             throw new InactiveEmployeeException();
 
-        return employeeRepository.updateEmployeeById(id, updatedEmployeeInfo);
+        return employeeRepository.update(id, updatedEmployeeInfo);
     }
 
     public List<Employee> findAll() {
-        return employeeRepository.getAllEmployees();
+        return employeeRepository.findAll();
     }
 
     public Employee findById(Long id){
@@ -49,6 +49,6 @@ public class EmployeeService {
     }
 
     public List<Employee> findByPage(Integer pageNumber, Integer pageSize) {
-        return employeeRepository.listEmployeesByPage(pageNumber, pageSize);
+        return employeeRepository.findByPage(pageNumber, pageSize);
     }
 }

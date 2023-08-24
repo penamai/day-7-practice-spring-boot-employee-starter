@@ -30,7 +30,7 @@ public class EmployeeApiTests {
 
     @Test
     void should_return_employees_when_get_employees() throws Exception {
-        Employee alice = employeeRepository.addAnEmployee(new Employee(1L, "Alice", 25, "Female", 10000, 1L));
+        Employee alice = employeeRepository.add(new Employee(1L, "Alice", 25, "Female", 10000, 1L));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(status().isOk())
@@ -45,8 +45,8 @@ public class EmployeeApiTests {
 
     @Test
     void should_return_right_employee_when_get_employee_given_employee_id() throws Exception {
-        Employee alice = employeeRepository.addAnEmployee(new Employee(1L, "Alice", 25, "Female", 10000, 1L));
-        employeeRepository.addAnEmployee(new Employee(2L, "Bob", 30, "Male", 15000, 2L));
+        Employee alice = employeeRepository.add(new Employee(1L, "Alice", 25, "Female", 10000, 1L));
+        employeeRepository.add(new Employee(2L, "Bob", 30, "Male", 15000, 2L));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees/" + alice.getId()))
                 .andExpect(status().isOk())
@@ -67,8 +67,8 @@ public class EmployeeApiTests {
 
     @Test
     void should_return_list_of_employees_when_get_employees_given_a_gender() throws Exception {
-        Employee alice = employeeRepository.addAnEmployee(new Employee("Alice", 25, "Female", 10000, 1L));
-        employeeRepository.addAnEmployee(new Employee("Bob", 30, "Male", 15000, 2L));
+        Employee alice = employeeRepository.add(new Employee("Alice", 25, "Female", 10000, 1L));
+        employeeRepository.add(new Employee("Bob", 30, "Male", 15000, 2L));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees").param("gender","Female"))
                 .andExpect(status().isOk())
@@ -98,8 +98,8 @@ public class EmployeeApiTests {
 
     @Test
     void should_return_employee_updated_when_put_employee_given_employee_id_with_JSON_format() throws Exception {
-        employeeRepository.addAnEmployee(new Employee("Nameee", 45, "Male", 1000, 2L));
-        Employee initialEmployeeInfo = employeeRepository.getAllEmployees().get(0);
+        employeeRepository.add(new Employee("Nameee", 45, "Male", 1000, 2L));
+        Employee initialEmployeeInfo = employeeRepository.findAll().get(0);
         Employee updatedEmployeeInfo = new Employee(null, null, 50, null, 20000, null);
 
         mockMvcClient.perform(MockMvcRequestBuilders.put("/employees/" + initialEmployeeInfo.getId()).contentType(MediaType.APPLICATION_JSON)
@@ -115,8 +115,8 @@ public class EmployeeApiTests {
 
     @Test
     void should_delete_and_return_no_content_when_delete_employee_given_employee_id() throws Exception {
-        employeeRepository.addAnEmployee(new Employee("Nameee", 45, "Male", 1000, 2L));
-        Employee employeeToDelete = employeeRepository.getAllEmployees().get(0);
+        employeeRepository.add(new Employee("Nameee", 45, "Male", 1000, 2L));
+        Employee employeeToDelete = employeeRepository.findAll().get(0);
 
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/employees/" + employeeToDelete.getId()))
                 .andExpect(status().isNoContent());
@@ -124,8 +124,8 @@ public class EmployeeApiTests {
 
     @Test
     void should_return_correct_list_of_employees_when_get_employees_given_pageNumber_and_pageSize() throws Exception {
-        Employee alice = employeeRepository.addAnEmployee(new Employee("Alice", 25, "Female", 10000, 1L));
-        employeeRepository.addAnEmployee(new Employee("Bob", 30, "Male", 15000, 2L));
+        Employee alice = employeeRepository.add(new Employee("Alice", 25, "Female", 10000, 1L));
+        employeeRepository.add(new Employee("Bob", 30, "Male", 15000, 2L));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/employees").param("pageNumber","1").param("pageSize","1"))
                 .andExpect(status().isOk())

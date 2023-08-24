@@ -22,7 +22,7 @@ public class CompanyService {
     }
 
     public Company create(Company company) {
-        return companyRepository.addACompany(company);
+        return companyRepository.add(company);
     }
 
     public void delete(Long id) {
@@ -30,26 +30,26 @@ public class CompanyService {
     }
 
     public Company update(Long id, Company updatedCompanyInfo) {
-        Company companyToUpdate = companyRepository.getCompanyById(id);
+        Company companyToUpdate = companyRepository.findById(id);
         if(!companyToUpdate.isActive())
             throw new InactiveCompanyException();
 
-        return companyRepository.updateCompanyById(id, updatedCompanyInfo);
+        return companyRepository.update(id, updatedCompanyInfo);
     }
 
     public List<Company> findAll() {
-        return companyRepository.listAllCompanies();
+        return companyRepository.findAll();
     }
 
     public Company findById(Long id) {
-        return companyRepository.getCompanyById(id);
+        return companyRepository.findById(id);
     }
 
     public List<Company> findByPage(Integer pageNumber, Integer pageSize) {
-        return companyRepository.listCompaniesByPage(pageNumber, pageSize);
+        return companyRepository.findByPage(pageNumber, pageSize);
     }
 
     public List<Employee> findAllEmployees(Long id) {
-        return employeeRepository.getEmployeesByCompanyId(id);
+        return employeeRepository.findByCompanyId(id);
     }
 }

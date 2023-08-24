@@ -24,7 +24,7 @@ public class EmployeeRepository {
         employees.add(new Employee(5L, "Ellen", 34, "Female", 5000, 5L));
     }
 
-    public List<Employee> getAllEmployees() {
+    public List<Employee> findAll() {
         return employees;
     }
 
@@ -41,7 +41,7 @@ public class EmployeeRepository {
                 .collect(Collectors.toList());
     }
 
-    public Employee addAnEmployee(Employee employee) {
+    public Employee add(Employee employee) {
         Employee newEmployee = new Employee(generateNextId(), employee);
         employees.add(newEmployee);
         return newEmployee;
@@ -56,14 +56,14 @@ public class EmployeeRepository {
          return employeeWithMaxId.get().getId() + DEFAULT_INCREMENT;
     }
 
-    public Employee updateEmployeeById(Long id, Employee updatedEmployeeInfo) {
+    public Employee update(Long id, Employee updatedEmployeeInfo) {
         Employee employeeToBeUpdated = findById(id);
         employeeToBeUpdated.update(updatedEmployeeInfo);
 
         return employeeToBeUpdated;
     }
 
-    public List<Employee> listEmployeesByPage(Integer pageNumber, Integer pageSize) {
+    public List<Employee> findByPage(Integer pageNumber, Integer pageSize) {
         int fromIndex = pageSize*(pageNumber - 1);
         int toIndex = fromIndex + pageSize;
         if(toIndex > employees.size())
@@ -71,7 +71,7 @@ public class EmployeeRepository {
         return employees.subList(fromIndex, toIndex);
     }
 
-    public List<Employee> getEmployeesByCompanyId(Long companyId) {
+    public List<Employee> findByCompanyId(Long companyId) {
         return employees.stream()
                 .filter(employee -> employee.getCompanyId().equals(companyId))
                 .collect(Collectors.toList());
