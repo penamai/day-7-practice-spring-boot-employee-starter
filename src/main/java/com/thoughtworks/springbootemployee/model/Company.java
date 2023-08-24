@@ -20,11 +20,13 @@ public class Company {
     public Company(Long id, String name) {
         this(name);
         this.id = id;
+        this.isActive = TRUE;
     }
 
     public Company(Long id, Company company) {
         this(company.getName());
         this.id = id;
+        this.isActive = TRUE;
     }
 
     public Long getId() {

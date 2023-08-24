@@ -66,14 +66,16 @@ public class CompanyServiceTest {
     void should_return_updated_company_when_update_given_active_company() {
         Company company = new Company(1L, "Brandname");
         Company updatedCompanyInfo = new Company (null, "BrandNameNew");
+        Company updatedCompany = new Company(company.getId(), updatedCompanyInfo.getName());
 
         when(mockedCompanyRepository.getCompanyById(company.getId())).thenReturn(company);
+        when(mockedCompanyRepository.updateCompanyById(company.getId(),updatedCompanyInfo)).thenReturn(updatedCompany);
 
-        Company updatedCompany = companyService.update(company.getId(), updatedCompanyInfo);
+        Company retrievedCompany = companyService.update(company.getId(), updatedCompanyInfo);
 
-        assertTrue(updatedCompany.isActive());
-        assertEquals(company.getId(), updatedCompany.getId());
-        assertEquals(updatedCompanyInfo.getName(), updatedCompany.getName());
+        assertTrue(retrievedCompany.isActive());
+        assertEquals(company.getId(), retrievedCompany.getId());
+        assertEquals(updatedCompanyInfo.getName(), retrievedCompany.getName());
     }
 
     @Test

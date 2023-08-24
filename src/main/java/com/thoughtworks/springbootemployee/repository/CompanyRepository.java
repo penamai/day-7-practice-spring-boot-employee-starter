@@ -56,10 +56,9 @@ public class CompanyRepository {
 
     public Company updateCompanyById(Long id, Company updatedCompanyInfo) {
         Company companyToBeUpdated = getCompanyById(id);
-        Company updatedCompany = new Company(id, updatedCompanyInfo.getName());
+        companyToBeUpdated.update(updatedCompanyInfo);
 
-        companies.set(companies.indexOf(companyToBeUpdated), updatedCompany);
-        return updatedCompany;
+        return companyToBeUpdated;
     }
 
     public void cleanup() {

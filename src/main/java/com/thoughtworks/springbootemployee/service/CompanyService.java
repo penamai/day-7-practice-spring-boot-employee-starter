@@ -33,9 +33,8 @@ public class CompanyService {
         Company companyToUpdate = companyRepository.getCompanyById(id);
         if(!companyToUpdate.isActive())
             throw new InactiveCompanyException();
-        companyToUpdate.update(updatedCompanyInfo);
 
-        return companyToUpdate;
+        return companyRepository.updateCompanyById(id, updatedCompanyInfo);
     }
 
     public List<Company> findAll() {
