@@ -25,6 +25,8 @@ public class CompanyApiTests {
     @Autowired
     private CompanyRepository companyRepository;
     @Autowired
+    private EmployeeRepository employeeRepository;
+    @Autowired
     private MockMvc mockMvcClient;
 
     @BeforeEach
@@ -63,10 +65,9 @@ public class CompanyApiTests {
 
     @Test
     void should_return_list_of_employees_when_get_company_employees_given_company_id() throws Exception {
-        EmployeeRepository employeeRepository = new EmployeeRepository();
         employeeRepository.cleanup();
-        Employee employee = employeeRepository.addAnEmployee(new Employee("Chris", 23, "Male", 9090, 1L));
         Company company = companyRepository.addACompany(new Company("Bruhhhh Corp."));
+        Employee employee = employeeRepository.addAnEmployee(new Employee("Chris", 23, "Male", 9090, company.getId()));
 
         mockMvcClient.perform(MockMvcRequestBuilders.get("/companies/" + company.getId() + "/employees"))
                 .andExpect(status().isOk())
