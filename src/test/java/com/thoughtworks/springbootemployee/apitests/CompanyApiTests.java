@@ -111,4 +111,16 @@ public class CompanyApiTests {
         mockMvcClient.perform(MockMvcRequestBuilders.delete("/companies/" + companyToDelete.getId()))
                 .andExpect(status().isNoContent());
     }
+    
+    @Test
+    void should_return_correct_list_of_companies_when_get_companies_given_pageNumber_and_pageSize() throws Exception {
+        Company company = companyRepository.addACompany(new Company("firstCompany"));
+        companyRepository.addACompany(new Company("secondCompany"));
+        
+        mockMvcClient.perform(MockMvcRequestBuilders.get("/companies").param("pageNumber","1").param("pageSize","1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id").value(company.getId()))
+                .andExpect(jsonPath("$[0].name").value(company.getName()));
+    }
 }
