@@ -32,9 +32,8 @@ public class EmployeeService {
         Employee employeeToUpdate = employeeRepository.findById(id);
         if(!employeeToUpdate.isActive())
             throw new InactiveEmployeeException();
-        employeeToUpdate.update(updatedEmployeeInfo);
 
-        return employeeToUpdate;
+        return employeeRepository.updateEmployeeById(id, updatedEmployeeInfo);
     }
 
     public List<Employee> findAll() {

@@ -90,17 +90,19 @@ public class EmployeeServiceTests {
     void should_return_updated_employee_when_update_employee_given_active_employee() {
         Employee employee = new Employee(1L, "Delilah", 50, "Female", 10000, 2L);
         Employee updatedEmployeeInfo = new Employee(null, 51, "Female", 11000, null);
+        Employee updatedEmployee = new Employee(employee.getId(),employee.getName(),updatedEmployeeInfo.getAge(),employee.getGender(), updatedEmployeeInfo.getSalary(), employee.getCompanyId());
 
         when(mockedEmployeeRepository.findById(employee.getId())).thenReturn(employee);
+        when(mockedEmployeeRepository.updateEmployeeById(employee.getId(), updatedEmployeeInfo)).thenReturn(updatedEmployee);
 
-        Employee updatedEmployee = employeeService.update(employee.getId(), updatedEmployeeInfo);
+        Employee retrievedEmployee = employeeService.update(employee.getId(), updatedEmployeeInfo);
 
-        assertTrue(updatedEmployee.isActive());
-        assertEquals(employee.getName(), updatedEmployee.getName());
-        assertEquals(updatedEmployeeInfo.getAge(), updatedEmployee.getAge());
-        assertEquals(employee.getGender(), updatedEmployee.getGender());
-        assertEquals(updatedEmployeeInfo.getSalary(), updatedEmployee.getSalary());
-        assertEquals(employee.getCompanyId(), updatedEmployee.getCompanyId());
+        assertTrue(retrievedEmployee.isActive());
+        assertEquals(employee.getName(), retrievedEmployee.getName());
+        assertEquals(updatedEmployeeInfo.getAge(), retrievedEmployee.getAge());
+        assertEquals(employee.getGender(), retrievedEmployee.getGender());
+        assertEquals(updatedEmployeeInfo.getSalary(), retrievedEmployee.getSalary());
+        assertEquals(employee.getCompanyId(), retrievedEmployee.getCompanyId());
     }
 
     @Test
